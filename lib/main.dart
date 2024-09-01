@@ -1,210 +1,203 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'auth/firebase_auth/firebase_user_provider.dart';
+import 'auth/firebase_auth/auth_util.dart';
+
+import 'backend/push_notifications/push_notifications_util.dart';
+import 'backend/firebase/firebase_config.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import 'flutter_flow/flutter_flow_util.dart';
+import 'flutter_flow/nav/nav.dart';
+import 'index.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  GoRouter.optionURLReflectsImperativeAPIs = true;
+  usePathUrlStrategy();
+  await initFirebase();
+
+  await FlutterFlowTheme.initialize();
+
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key, this.entryPage});
+
+  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
+
+  final Widget? entryPage;
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
+
+  late AppStateNotifier _appStateNotifier;
+  late GoRouter _router;
+
+  late Stream<BaseAuthUser> userStream;
+
+  final authUserSub = authenticatedUserStream.listen((_) {});
+  final fcmTokenSub = fcmTokenUserStream.listen((_) {});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Social App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 34, 56, 255)),
-        ),
-        home: MyHomePage(),
-      ),
+  void initState() {
+    super.initState();
+
+    _appStateNotifier = AppStateNotifier.instance;
+    _router = createRouter(_appStateNotifier, widget.entryPage);
+    userStream = plus1FirebaseUserStream()
+      ..listen((user) {
+        _appStateNotifier.update(user);
+      });
+    jwtTokenStream.listen((_) {});
+    Future.delayed(
+      const Duration(milliseconds: 1000),
+      () => _appStateNotifier.stopShowingSplashImage(),
     );
   }
-}
 
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  var favorites = <WordPair>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
-
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  void dispose() {
+    authUserSub.cancel();
+    fcmTokenSub.cancel();
+    super.dispose();
+  }
 
-class _MyHomePageState extends State<MyHomePage> {
-  var selectedIndex = 0;
+  void setThemeMode(ThemeMode mode) => setState(() {
+        _themeMode = mode;
+        FlutterFlowTheme.saveThemeMode(mode);
+      });
 
   @override
   Widget build(BuildContext context) {
-    
-    Widget page;
-    switch (selectedIndex) {
-      case 0:
-        page = GeneratorPage();
-        break;
-      case 1:
-        page = FavoritesPage();
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Builder(
-          builder: (context) {
-            return Scaffold(
-              body: Row(
-                children: [
-                  SafeArea(
-                    child: NavigationRail(
-                      extended: constraints.maxWidth >= 600,
-                      destinations: [
-                        NavigationRailDestination(
-                          icon: Icon(Icons.home),
-                          label: Text('Home'),
-                        ),
-                        NavigationRailDestination(
-                          icon: Icon(Icons.favorite),
-                          label: Text('Favorites'),
-                        ),
-                      ],
-                      selectedIndex: selectedIndex,
-                      onDestinationSelected: (value) {
-                        setState(() {
-                          selectedIndex = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      child: page,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-        );
-      }
-    );
-  }
-}
-
-class FavoritesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
-    if (appState.favorites.isEmpty) {
-      return Center(
-        child: Text('No favorites yet.'),
-      );
-    }
-
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),
-        ),
-        for (var pair in appState.favorites)
-          ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(pair.asLowerCase),
-          ),
+    return MaterialApp.router(
+      title: 'Plus1',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
+      supportedLocales: const [Locale('en', '')],
+      theme: ThemeData(
+        brightness: Brightness.light,
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.dragged)) {
+              return const Color(0xffe5e7eb);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return const Color(0xffe5e7eb);
+            }
+            return const Color(0xffe5e7eb);
+          }),
+        ),
+        useMaterial3: false,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.dragged)) {
+              return const Color(0xff313442);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return const Color(0xff313442);
+            }
+            return const Color(0xff313442);
+          }),
+        ),
+        useMaterial3: false,
+      ),
+      themeMode: _themeMode,
+      routerConfig: _router,
     );
   }
 }
 
-class GeneratorPage extends StatelessWidget {
+class NavBarPage extends StatefulWidget {
+  const NavBarPage({super.key, this.initialPage, this.page});
+
+  final String? initialPage;
+  final Widget? page;
+
+  @override
+  _NavBarPageState createState() => _NavBarPageState();
+}
+
+/// This is the private State class that goes with NavBarPage.
+class _NavBarPageState extends State<NavBarPage> {
+  String _currentPageName = 'mainFeed';
+  late Widget? _currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPageName = widget.initialPage ?? _currentPageName;
+    _currentPage = widget.page;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
+    final tabs = {
+      'mainFeed': const MainFeedWidget(),
+      'mainProfile': const MainProfileWidget(),
+      'logout': const LogoutWidget(),
+    };
+    final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BigCard(pair: pair),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
-                },
-                icon: Icon(icon),
-                label: Text('Like'),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next'),
-              ),
-            ],
+    return Scaffold(
+      body: _currentPage ?? tabs[_currentPageName],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (i) => setState(() {
+          _currentPage = null;
+          _currentPageName = tabs.keys.toList()[i];
+        }),
+        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        selectedItemColor: FlutterFlowTheme.of(context).primary,
+        unselectedItemColor: FlutterFlowTheme.of(context).secondaryText,
+        showSelectedLabels: true,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.ssid_chart_rounded,
+              size: 24.0,
+            ),
+            label: '.',
+            tooltip: '',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.account_circle_outlined,
+              size: 24.0,
+            ),
+            activeIcon: Icon(
+              Icons.account_circle,
+              size: 24.0,
+            ),
+            label: '__',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home_outlined,
+              size: 24.0,
+            ),
+            label: 'Home',
+            tooltip: '',
+          )
         ],
       ),
     );
   }
 }
-
-class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
-
-  final WordPair pair;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
-
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(pair.asLowerCase, style: style),
-      ),
-    );
-  }
-}
-
