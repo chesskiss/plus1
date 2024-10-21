@@ -1,9 +1,10 @@
 # Plus1
 
 An app to find or be someone’s Plus 1, and get into fun exclusive events 💎
+~By Arnold C.
 
 
-## Getting Started
+## Notes
 
 Built to run on the Flutter _stable_ release.
 
