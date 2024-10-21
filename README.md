@@ -1,7 +1,7 @@
 # Plus1
 
 An app to find or be someone’s Plus 1, and get into fun exclusive events 💎
-~By Arnold C.
+```~By Arnold C.```
 
 
 ## Notes
