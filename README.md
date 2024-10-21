@@ -1,10 +1,11 @@
 # Plus1
 
-A new Flutter project.
+An app to find or be someone’s Plus 1, and get into fun exclusive events 💎
+
 
 ## Getting Started
 
-FlutterFlow projects are built to run on the Flutter _stable_ release.
+Built to run on the Flutter _stable_ release.
 
 ## Integration Tests
 
