@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>362267515064-ke5ekk1fstsj7go25omsn5tupo9bcqok.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.362267515064-ke5ekk1fstsj7go25omsn5tupo9bcqok</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>362267515064-cuk123o25safq9k7ibt0t0t3purj5281.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBQ372zqzi-2IzJNeJ07_0K0kWe8pfumjU</string>
 	<key>GCM_SENDER_ID</key>
@@ -9,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.flutterflow.sniffsocial</string>
+	<string>com.flutterflow.sniffsocial.v6</string>
 	<key>PROJECT_ID</key>
 	<string>plus-1-app</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:362267515064:ios:8337daa39b3c14ae347c4d</string>
+	<string>1:362267515064:ios:b07a776ba963d6c1347c4d</string>
 </dict>
 </plist>

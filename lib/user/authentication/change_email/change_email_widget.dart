@@ -10,6 +10,9 @@ export 'change_email_model.dart';
 class ChangeEmailWidget extends StatefulWidget {
   const ChangeEmailWidget({super.key});
 
+  static String routeName = 'changeEmail';
+  static String routePath = '/changeEmail';
+
   @override
   State<ChangeEmailWidget> createState() => _ChangeEmailWidgetState();
 }
@@ -24,10 +27,11 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
     super.initState();
     _model = createModel(context, () => ChangeEmailModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'changeEmail'});
     _model.emailAddressTextController ??= TextEditingController();
     _model.emailAddressFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -51,6 +55,8 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
+            logFirebaseEvent('CHANGE_EMAIL_PAGE_Icon_1rf2vg66_ON_TAP');
+            logFirebaseEvent('Icon_navigate_back');
             context.pop();
           },
           child: Icon(
@@ -66,18 +72,18 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                 letterSpacing: 0.0,
               ),
         ),
-        actions: const [],
+        actions: [],
         centerTitle: false,
         elevation: 0.0,
       ),
       body: Align(
-        alignment: const AlignmentDirectional(0.0, -1.0),
+        alignment: AlignmentDirectional(0.0, -1.0),
         child: Container(
           width: double.infinity,
-          constraints: const BoxConstraints(
+          constraints: BoxConstraints(
             maxWidth: 570.0,
           ),
-          decoration: const BoxDecoration(),
+          decoration: BoxDecoration(),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +94,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                 tablet: false,
               ))
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -102,12 +108,15 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                           size: 25.0,
                         ),
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'CHANGE_EMAIL_arrow_back_rounded_ICN_ON_T');
+                          logFirebaseEvent('IconButton_navigate_back');
                           context.pop();
                         },
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +137,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                   ),
                 ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(24.0, 4.0, 24.0, 16.0),
+                padding: EdgeInsetsDirectional.fromSTEB(24.0, 4.0, 24.0, 16.0),
                 child: Text(
                   'We will send your new email a link to verify it.',
                   style: FlutterFlowTheme.of(context).labelMedium.override(
@@ -138,7 +147,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                 child: TextFormField(
                   controller: _model.emailAddressTextController,
                   focusNode: _model.emailAddressFocusNode,
@@ -185,7 +194,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                     filled: true,
                     fillColor: FlutterFlowTheme.of(context).secondaryBackground,
                     contentPadding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         fontFamily: 'Figtree',
@@ -198,15 +207,17 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                 ),
               ),
               Align(
-                alignment: const AlignmentDirectional(0.0, -1.0),
+                alignment: AlignmentDirectional(0.0, -1.0),
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
                   child: FFButtonWidget(
                     onPressed: () async {
+                      logFirebaseEvent('CHANGE_EMAIL_PAGE_Button-Login_ON_TAP');
                       // ChangeEmail
+                      logFirebaseEvent('Button-Login_ChangeEmail');
                       if (_model.emailAddressTextController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             content: Text(
                               'Email required!',
                             ),
@@ -219,15 +230,15 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                         email: _model.emailAddressTextController.text,
                         context: context,
                       );
-                      setState(() {});
+                      safeSetState(() {});
                     },
                     text: 'Send Reset Link',
                     options: FFButtonOptions(
                       height: 48.0,
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 32.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 32.0, 0.0),
                       iconPadding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).primary,
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
@@ -236,7 +247,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                                 letterSpacing: 0.0,
                               ),
                       elevation: 2.0,
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: Colors.transparent,
                         width: 1.0,
                       ),

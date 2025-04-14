@@ -1,5 +1,5 @@
 import '/backend/schema/enums/enums.dart';
-import '/components/image_upload/image_upload_widget.dart';
+import '/components/images_upload/images_upload_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'edit_post_widget.dart' show EditPostWidget;
@@ -8,9 +8,14 @@ import 'package:flutter/material.dart';
 class EditPostModel extends FlutterFlowModel<EditPostWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
-  // Model for ImageUpload component.
-  late ImageUploadModel imageUploadModel;
+  // Stores action output result for [Custom Action - enums2activityType] action in editPost widget.
+  List<String>? activityStrings;
+  // Stores action output result for [Custom Action - enums2exclusivity] action in editPost widget.
+  List<String>? exclusivityStrings;
+  // Stores action output result for [Custom Action - enums2dressCode] action in editPost widget.
+  List<String>? dressCodeStrings;
+  // Model for ImagesUpload component.
+  late ImagesUploadModel imagesUploadModel;
   // State field(s) for EventName widget.
   FocusNode? eventNameFocusNode;
   TextEditingController? eventNameTextController;
@@ -24,8 +29,13 @@ class EditPostModel extends FlutterFlowModel<EditPostWidget> {
   List<String>? get exclusivityCcValues => exclusivityCcValueController?.value;
   set exclusivityCcValues(List<String>? val) =>
       exclusivityCcValueController?.value = val;
-  // State field(s) for SponsorshipTile widget.
-  bool? sponsorshipTileValue;
+  // State field(s) for DressCode_cc widget.
+  FormFieldController<List<String>>? dressCodeCcValueController;
+  List<String>? get dressCodeCcValues => dressCodeCcValueController?.value;
+  set dressCodeCcValues(List<String>? val) =>
+      dressCodeCcValueController?.value = val;
+  // State field(s) for RadioButton widget.
+  FormFieldController<String>? radioButtonValueController;
   // State field(s) for ActivityType_cc widget.
   FormFieldController<List<String>>? activityTypeCcValueController;
   List<String>? get activityTypeCcValues =>
@@ -33,7 +43,9 @@ class EditPostModel extends FlutterFlowModel<EditPostWidget> {
   set activityTypeCcValues(List<String>? val) =>
       activityTypeCcValueController?.value = val;
   // State field(s) for PlacePicker widget.
-  FFPlace placePickerValue = const FFPlace();
+  FFPlace placePickerValue = FFPlace();
+  // State field(s) for FlexibleDates_Checkbox widget.
+  bool? flexibleDatesCheckboxValue;
   DateTime? datePicked1;
   DateTime? datePicked2;
   DateTime? datePicked3;
@@ -42,15 +54,17 @@ class EditPostModel extends FlutterFlowModel<EditPostWidget> {
   List<ActivityType>? activityEnums;
   // Stores action output result for [Custom Action - exclusiveTypes2Enums] action in Button widget.
   List<Exclusivity>? exclusivtyEnums;
+  // Stores action output result for [Custom Action - dressCode2Enums] action in Button widget.
+  List<DressCode>? dressCodeEnums;
 
   @override
   void initState(BuildContext context) {
-    imageUploadModel = createModel(context, () => ImageUploadModel());
+    imagesUploadModel = createModel(context, () => ImagesUploadModel());
   }
 
   @override
   void dispose() {
-    imageUploadModel.dispose();
+    imagesUploadModel.dispose();
     eventNameFocusNode?.dispose();
     eventNameTextController?.dispose();
 
@@ -60,4 +74,7 @@ class EditPostModel extends FlutterFlowModel<EditPostWidget> {
 
   /// Action blocks.
   Future test(BuildContext context) async {}
+
+  /// Additional helper methods.
+  String? get radioButtonValue => radioButtonValueController?.value;
 }

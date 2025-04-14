@@ -10,9 +10,11 @@ class RatingStruct extends FFFirebaseStruct {
   RatingStruct({
     DocumentReference? user,
     int? rating,
+    DateTime? time,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _user = user,
         _rating = rating,
+        _time = time,
         super(firestoreUtilData);
 
   // "user" field.
@@ -31,9 +33,17 @@ class RatingStruct extends FFFirebaseStruct {
 
   bool hasRating() => _rating != null;
 
+  // "time" field.
+  DateTime? _time;
+  DateTime? get time => _time;
+  set time(DateTime? val) => _time = val;
+
+  bool hasTime() => _time != null;
+
   static RatingStruct fromMap(Map<String, dynamic> data) => RatingStruct(
         user: data['user'] as DocumentReference?,
         rating: castToType<int>(data['rating']),
+        time: data['time'] as DateTime?,
       );
 
   static RatingStruct? maybeFromMap(dynamic data) =>
@@ -42,6 +52,7 @@ class RatingStruct extends FFFirebaseStruct {
   Map<String, dynamic> toMap() => {
         'user': _user,
         'rating': _rating,
+        'time': _time,
       }.withoutNulls;
 
   @override
@@ -53,6 +64,10 @@ class RatingStruct extends FFFirebaseStruct {
         'rating': serializeParam(
           _rating,
           ParamType.int,
+        ),
+        'time': serializeParam(
+          _time,
+          ParamType.DateTime,
         ),
       }.withoutNulls;
 
@@ -69,6 +84,11 @@ class RatingStruct extends FFFirebaseStruct {
           ParamType.int,
           false,
         ),
+        time: deserializeParam(
+          data['time'],
+          ParamType.DateTime,
+          false,
+        ),
       );
 
   @override
@@ -78,16 +98,18 @@ class RatingStruct extends FFFirebaseStruct {
   bool operator ==(Object other) {
     return other is RatingStruct &&
         user == other.user &&
-        rating == other.rating;
+        rating == other.rating &&
+        time == other.time;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([user, rating]);
+  int get hashCode => const ListEquality().hash([user, rating, time]);
 }
 
 RatingStruct createRatingStruct({
   DocumentReference? user,
   int? rating,
+  DateTime? time,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -96,6 +118,7 @@ RatingStruct createRatingStruct({
     RatingStruct(
       user: user,
       rating: rating,
+      time: time,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

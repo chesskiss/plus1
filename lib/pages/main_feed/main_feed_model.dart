@@ -1,5 +1,7 @@
+import '/components/nav_bar/nav_bar_widget.dart';
 import '/components/web_components/side_nav/side_nav_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'main_feed_widget.dart' show MainFeedWidget;
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart'
     show TutorialCoachMark;
@@ -11,15 +13,19 @@ class MainFeedModel extends FlutterFlowModel<MainFeedWidget> {
   TutorialCoachMark? mainFeedController;
   // Model for Side_nav component.
   late SideNavModel sideNavModel;
+  // Model for NavBar component.
+  late NavBarModel navBarModel;
 
   @override
   void initState(BuildContext context) {
     sideNavModel = createModel(context, () => SideNavModel());
+    navBarModel = createModel(context, () => NavBarModel());
   }
 
   @override
   void dispose() {
     mainFeedController?.finish();
     sideNavModel.dispose();
+    navBarModel.dispose();
   }
 }

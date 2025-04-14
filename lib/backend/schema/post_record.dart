@@ -10,9 +10,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class PostRecord extends FirestoreRecord {
   PostRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -96,6 +96,46 @@ class PostRecord extends FirestoreRecord {
   List<Exclusivity> get exclusivityType => _exclusivityType ?? const [];
   bool hasExclusivityType() => _exclusivityType != null;
 
+  // "DressCode" field.
+  List<DressCode>? _dressCode;
+  List<DressCode> get dressCode => _dressCode ?? const [];
+  bool hasDressCode() => _dressCode != null;
+
+  // "PartialSponsorship" field.
+  bool? _partialSponsorship;
+  bool get partialSponsorship => _partialSponsorship ?? false;
+  bool hasPartialSponsorship() => _partialSponsorship != null;
+
+  // "report_count" field.
+  int? _reportCount;
+  int get reportCount => _reportCount ?? 0;
+  bool hasReportCount() => _reportCount != null;
+
+  // "IsSponsored" field.
+  bool? _isSponsored;
+  bool get isSponsored => _isSponsored ?? false;
+  bool hasIsSponsored() => _isSponsored != null;
+
+  // "IsTicketed" field.
+  bool? _isTicketed;
+  bool get isTicketed => _isTicketed ?? false;
+  bool hasIsTicketed() => _isTicketed != null;
+
+  // "flexibleDates" field.
+  bool? _flexibleDates;
+  bool get flexibleDates => _flexibleDates ?? false;
+  bool hasFlexibleDates() => _flexibleDates != null;
+
+  // "deleted" field.
+  bool? _deleted;
+  bool get deleted => _deleted ?? false;
+  bool hasDeleted() => _deleted != null;
+
+  // "reports" field.
+  List<ReportStruct>? _reports;
+  List<ReportStruct> get reports => _reports ?? const [];
+  bool hasReports() => _reports != null;
+
   void _initializeFields() {
     _title = snapshotData['title'] as String?;
     _description = snapshotData['description'] as String?;
@@ -114,6 +154,17 @@ class PostRecord extends FirestoreRecord {
     _activityType = getEnumList<ActivityType>(snapshotData['ActivityType']);
     _exclusivityType =
         getEnumList<Exclusivity>(snapshotData['ExclusivityType']);
+    _dressCode = getEnumList<DressCode>(snapshotData['DressCode']);
+    _partialSponsorship = snapshotData['PartialSponsorship'] as bool?;
+    _reportCount = castToType<int>(snapshotData['report_count']);
+    _isSponsored = snapshotData['IsSponsored'] as bool?;
+    _isTicketed = snapshotData['IsTicketed'] as bool?;
+    _flexibleDates = snapshotData['flexibleDates'] as bool?;
+    _deleted = snapshotData['deleted'] as bool?;
+    _reports = getStructList(
+      snapshotData['reports'],
+      ReportStruct.fromMap,
+    );
   }
 
   static CollectionReference get collection =>
@@ -160,6 +211,12 @@ Map<String, dynamic> createPostRecordData({
   DateTime? endDate,
   DateTime? endTime,
   LatLng? location,
+  bool? partialSponsorship,
+  int? reportCount,
+  bool? isSponsored,
+  bool? isTicketed,
+  bool? flexibleDates,
+  bool? deleted,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -173,6 +230,12 @@ Map<String, dynamic> createPostRecordData({
       'end_date': endDate,
       'end_time': endTime,
       'location': location,
+      'PartialSponsorship': partialSponsorship,
+      'report_count': reportCount,
+      'IsSponsored': isSponsored,
+      'IsTicketed': isTicketed,
+      'flexibleDates': flexibleDates,
+      'deleted': deleted,
     }.withoutNulls,
   );
 
@@ -200,7 +263,15 @@ class PostRecordDocumentEquality implements Equality<PostRecord> {
         e1?.endTime == e2?.endTime &&
         e1?.location == e2?.location &&
         listEquality.equals(e1?.activityType, e2?.activityType) &&
-        listEquality.equals(e1?.exclusivityType, e2?.exclusivityType);
+        listEquality.equals(e1?.exclusivityType, e2?.exclusivityType) &&
+        listEquality.equals(e1?.dressCode, e2?.dressCode) &&
+        e1?.partialSponsorship == e2?.partialSponsorship &&
+        e1?.reportCount == e2?.reportCount &&
+        e1?.isSponsored == e2?.isSponsored &&
+        e1?.isTicketed == e2?.isTicketed &&
+        e1?.flexibleDates == e2?.flexibleDates &&
+        e1?.deleted == e2?.deleted &&
+        listEquality.equals(e1?.reports, e2?.reports);
   }
 
   @override
@@ -220,7 +291,15 @@ class PostRecordDocumentEquality implements Equality<PostRecord> {
         e?.endTime,
         e?.location,
         e?.activityType,
-        e?.exclusivityType
+        e?.exclusivityType,
+        e?.dressCode,
+        e?.partialSponsorship,
+        e?.reportCount,
+        e?.isSponsored,
+        e?.isTicketed,
+        e?.flexibleDates,
+        e?.deleted,
+        e?.reports
       ]);
 
   @override

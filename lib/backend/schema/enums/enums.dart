@@ -1,10 +1,5 @@
 import 'package:collection/collection.dart';
 
-enum Pref {
-  a,
-  b,
-}
-
 enum ActivityType {
   Sports,
   Relax,
@@ -21,6 +16,36 @@ enum Exclusivity {
   Ticket,
 }
 
+enum DressCode {
+  WhiteTie,
+  BlackTie,
+  Semiformal,
+  BusinessCasual,
+  Casual,
+  Beach,
+}
+
+enum RelationPreference {
+  LongTerm,
+  ShortTerm,
+  Friendship,
+  NonMonogamous,
+  Other,
+}
+
+enum Status {
+  accepted,
+  declined,
+  pending,
+}
+
+enum TabEnums {
+  Home,
+  Invitations,
+  Likes,
+  Profile,
+}
+
 extension FFEnumExtensions<T extends Enum> on T {
   String serialize() => name;
 }
@@ -32,12 +57,18 @@ extension FFEnumListExtensions<T extends Enum> on Iterable<T> {
 
 T? deserializeEnum<T>(String? value) {
   switch (T) {
-    case (Pref):
-      return Pref.values.deserialize(value) as T?;
     case (ActivityType):
       return ActivityType.values.deserialize(value) as T?;
     case (Exclusivity):
       return Exclusivity.values.deserialize(value) as T?;
+    case (DressCode):
+      return DressCode.values.deserialize(value) as T?;
+    case (RelationPreference):
+      return RelationPreference.values.deserialize(value) as T?;
+    case (Status):
+      return Status.values.deserialize(value) as T?;
+    case (TabEnums):
+      return TabEnums.values.deserialize(value) as T?;
     default:
       return null;
   }

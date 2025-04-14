@@ -2,12 +2,16 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'logout_model.dart';
 export 'logout_model.dart';
 
 class LogoutWidget extends StatefulWidget {
   const LogoutWidget({super.key});
+
+  static String routeName = 'logout';
+  static String routePath = '/logout';
 
   @override
   State<LogoutWidget> createState() => _LogoutWidgetState();
@@ -23,7 +27,8 @@ class _LogoutWidgetState extends State<LogoutWidget> {
     super.initState();
     _model = createModel(context, () => LogoutModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'logout'});
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -36,7 +41,10 @@ class _LogoutWidgetState extends State<LogoutWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -53,7 +61,7 @@ class _LogoutWidgetState extends State<LogoutWidget> {
                   useGoogleFonts: false,
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -64,18 +72,21 @@ class _LogoutWidgetState extends State<LogoutWidget> {
             children: [
               FFButtonWidget(
                 onPressed: () async {
+                  logFirebaseEvent('LOGOUT_PAGE_LOGOUT_BTN_ON_TAP');
+                  logFirebaseEvent('Button_auth');
                   GoRouter.of(context).prepareAuthEvent();
                   await authManager.signOut();
                   GoRouter.of(context).clearRedirectLocation();
 
-                  context.goNamedAuth('StartPage', context.mounted);
+                  context.goNamedAuth(
+                      StartPageWidget.routeName, context.mounted);
                 },
                 text: 'Logout',
                 options: FFButtonOptions(
                   height: 40.0,
-                  padding: const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                   iconPadding:
-                      const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                   color: FlutterFlowTheme.of(context).primary,
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                         fontFamily: 'Figtree',
@@ -83,7 +94,7 @@ class _LogoutWidgetState extends State<LogoutWidget> {
                         letterSpacing: 0.0,
                       ),
                   elevation: 3.0,
-                  borderSide: const BorderSide(
+                  borderSide: BorderSide(
                     color: Colors.transparent,
                     width: 1.0,
                   ),

@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'account_login_signup_widget.dart' show AccountLoginSignupWidget;
 import 'package:flutter/material.dart';
 
@@ -6,17 +7,25 @@ class AccountLoginSignupModel
     extends FlutterFlowModel<AccountLoginSignupWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for TabBar widget.
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
+
+  bool isDataUploading = false;
+  FFUploadedFile uploadedLocalFile =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl = '';
 
   // State field(s) for signEmailAddress widget.
   FocusNode? signEmailAddressFocusNode;
   TextEditingController? signEmailAddressTextController;
   String? Function(BuildContext, String?)?
       signEmailAddressTextControllerValidator;
+  // State field(s) for signName widget.
+  FocusNode? signNameFocusNode;
+  TextEditingController? signNameTextController;
+  String? Function(BuildContext, String?)? signNameTextControllerValidator;
   // State field(s) for signPassword widget.
   FocusNode? signPasswordFocusNode;
   TextEditingController? signPasswordTextController;
@@ -51,6 +60,9 @@ class AccountLoginSignupModel
     tabBarController?.dispose();
     signEmailAddressFocusNode?.dispose();
     signEmailAddressTextController?.dispose();
+
+    signNameFocusNode?.dispose();
+    signNameTextController?.dispose();
 
     signPasswordFocusNode?.dispose();
     signPasswordTextController?.dispose();

@@ -15,6 +15,9 @@ class PostDetailsV1Widget extends StatefulWidget {
 
   final PostRecord? postParam;
 
+  static String routeName = 'postDetails_v1';
+  static String routePath = '/postDetailsV1';
+
   @override
   State<PostDetailsV1Widget> createState() => _PostDetailsV1WidgetState();
 }
@@ -29,7 +32,9 @@ class _PostDetailsV1WidgetState extends State<PostDetailsV1Widget> {
     super.initState();
     _model = createModel(context, () => PostDetailsV1Model());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'postDetails_v1'});
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -49,17 +54,17 @@ class _PostDetailsV1WidgetState extends State<PostDetailsV1Widget> {
         children: [
           wrapWithModel(
             model: _model.sideNavModel,
-            updateCallback: () => setState(() {}),
-            child: const SideNavWidget(
+            updateCallback: () => safeSetState(() {}),
+            child: SideNavWidget(
               selectedNav: 1,
             ),
           ),
           Expanded(
             child: Align(
-              alignment: const AlignmentDirectional(0.0, -1.0),
+              alignment: AlignmentDirectional(0.0, -1.0),
               child: wrapWithModel(
                 model: _model.postDetailsBaseV1Model,
-                updateCallback: () => setState(() {}),
+                updateCallback: () => safeSetState(() {}),
                 updateOnChange: true,
                 child: PostDetailsBaseV1Widget(
                   postRef: widget.postParam!.reference,

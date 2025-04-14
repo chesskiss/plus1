@@ -1,7 +1,7 @@
+import '/archive_pages/v4to6/delete_post/delete_post_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/delete_post/delete_post_widget.dart';
-import '/components/web_components/filter/filter_widget.dart';
+import '/components/posts/filter/filter_widget.dart';
 import '/flutter_flow/flutter_flow_calendar.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
@@ -46,7 +46,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
     super.initState();
     _model = createModel(context, () => PostDetailsBaseV1Model());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -80,13 +80,13 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
 
         return Container(
           width: double.infinity,
-          constraints: const BoxConstraints(
+          constraints: BoxConstraints(
             maxWidth: 770.0,
           ),
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
           ),
-          child: SizedBox(
+          child: Container(
             width: double.infinity,
             height: double.infinity,
             child: PageView(
@@ -123,9 +123,9 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                         imageBuilder: (path) =>
                                             CachedNetworkImage(
                                           fadeInDuration:
-                                              const Duration(milliseconds: 0),
+                                              Duration(milliseconds: 0),
                                           fadeOutDuration:
-                                              const Duration(milliseconds: 0),
+                                              Duration(milliseconds: 0),
                                           imageUrl: path,
                                           width:
                                               MediaQuery.sizeOf(context).width *
@@ -151,7 +151,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 64.0, 16.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -175,6 +175,10 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                         size: 25.0,
                                       ),
                                       onPressed: () async {
+                                        logFirebaseEvent(
+                                            'POST_DETAILS_BASE_V1_arrow_back_rounded_');
+                                        logFirebaseEvent(
+                                            'IconButton_navigate_back');
                                         context.safePop();
                                       },
                                     ),
@@ -193,9 +197,13 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                       size: 24.0,
                                     ),
                                     onPressed: () async {
+                                      logFirebaseEvent(
+                                          'POST_DETAILS_BASE_V1_more_vert_sharp_ICN');
+                                      logFirebaseEvent(
+                                          'IconButton_bottom_sheet');
                                       showModalBottomSheet(
                                         isScrollControlled: true,
-                                        backgroundColor: const Color(0x00000000),
+                                        backgroundColor: Color(0x00000000),
                                         barrierColor:
                                             FlutterFlowTheme.of(context)
                                                 .accent4,
@@ -204,7 +212,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                           return Padding(
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),
-                                            child: const SizedBox(
+                                            child: Container(
                                               height: 230.0,
                                               child: DeletePostWidget(),
                                             ),
@@ -219,14 +227,14 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               8.0, 4.0, 16.0, 6.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 16.0, 0.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -250,11 +258,15 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                             },
                                           ),
                                         });
+                                        logFirebaseEvent(
+                                            'POST_DETAILS_BASE_V1_ToggleIcon_7q6xljc2');
                                         if ((currentUserDocument?.likedPosts
                                                     .toList() ??
                                                 [])
                                             .contains(widget.postRef)) {
                                           // RemoveFromLikedList
+                                          logFirebaseEvent(
+                                              'ToggleIcon_RemoveFromLikedList');
 
                                           await currentUserReference!.update({
                                             ...mapToFirestore(
@@ -268,6 +280,8 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                           });
                                         } else {
                                           // AddToLikedList
+                                          logFirebaseEvent(
+                                              'ToggleIcon_AddToLikedList');
 
                                           await currentUserReference!.update({
                                             ...mapToFirestore(
@@ -297,7 +311,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           4.0, 0.0, 0.0, 0.0),
                                       child: Text(
                                         containerPostRecord.likes.length
@@ -311,7 +325,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           4.0, 0.0, 0.0, 0.0),
                                       child: Text(
                                         'Likes',
@@ -373,8 +387,13 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                               },
                                             ),
                                           });
+                                          logFirebaseEvent(
+                                              'POST_DETAILS_BASE_V1_ToggleIcon_k9tp2ia0');
                                           if (toggleIconUserRecord.savedPosts
                                               .contains(widget.postRef)) {
+                                            logFirebaseEvent(
+                                                'ToggleIcon_backend_call');
+
                                             await currentUserReference!.update({
                                               ...mapToFirestore(
                                                 {
@@ -387,6 +406,9 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                               ),
                                             });
                                           } else {
+                                            logFirebaseEvent(
+                                                'ToggleIcon_backend_call');
+
                                             await currentUserReference!.update({
                                               ...mapToFirestore(
                                                 {
@@ -419,7 +441,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                     },
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         4.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       containerPostRecord.saves.length
@@ -433,7 +455,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         4.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       'Saves',
@@ -472,7 +494,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 12.0, 16.0, 12.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -493,7 +515,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 16.0, 12.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -514,7 +536,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.all(6.0),
+                                          padding: EdgeInsets.all(6.0),
                                           child: Text(
                                             'Exclusivity Type',
                                             style: FlutterFlowTheme.of(context)
@@ -554,7 +576,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                                 ),
                                                 Align(
                                                   alignment:
-                                                      const AlignmentDirectional(
+                                                      AlignmentDirectional(
                                                           0.0, 0.0),
                                                   child: Text(
                                                     'Exclusive access ',
@@ -581,7 +603,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(6.0),
+                                    padding: EdgeInsets.all(6.0),
                                     child: Text(
                                       'Activity Type',
                                       style: FlutterFlowTheme.of(context)
@@ -599,7 +621,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                 children: [
                                   Expanded(
                                     child: FlutterFlowChoiceChips(
-                                      options: const [
+                                      options: [
                                         ChipData('Sports', Icons.sports_tennis),
                                         ChipData('Eat', Icons.restaurant),
                                         ChipData('Watch', Icons.remove_red_eye),
@@ -607,7 +629,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                         ChipData('Relax', Icons.spa),
                                         ChipData('Other')
                                       ],
-                                      onChanged: (val) => setState(
+                                      onChanged: (val) => safeSetState(
                                           () => _model.choiceChipsValues = val),
                                       selectedChipStyle: ChipStyle(
                                         backgroundColor:
@@ -677,9 +699,9 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
+                                    alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(24.0),
+                                      padding: EdgeInsets.all(24.0),
                                       child: Container(
                                         width: 355.0,
                                         height: 304.0,
@@ -695,7 +717,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                               _model.googleMapsCenter = latLng,
                                           initialLocation:
                                               _model.googleMapsCenter ??=
-                                                  const LatLng(13.106061, -59.613158),
+                                                  LatLng(13.106061, -59.613158),
                                           markerColor: GoogleMarkerColor.violet,
                                           mapType: MapType.normal,
                                           style: GoogleMapStyle.standard,
@@ -744,7 +766,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                       rowHeight: 64.0,
                                       onChange:
                                           (DateTimeRange? newSelectedDate) {
-                                        setState(() =>
+                                        safeSetState(() =>
                                             _model.calendarSelectedDay =
                                                 newSelectedDate);
                                       },
@@ -818,7 +840,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                       ],
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
+                      alignment: AlignmentDirectional(0.0, 1.0),
                       child: FlutterFlowIconButton(
                         borderColor: FlutterFlowTheme.of(context).primary,
                         borderRadius: 20.0,
@@ -831,8 +853,11 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                           size: 24.0,
                         ),
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'POST_DETAILS_BASE_V1_scrollDown_ON_TAP');
+                          logFirebaseEvent('scrollDown_page_view');
                           await _model.pageViewController?.nextPage(
-                            duration: const Duration(milliseconds: 300),
+                            duration: Duration(milliseconds: 300),
                             curve: Curves.ease,
                           );
                         },
@@ -880,7 +905,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.network(
-                                swipeableStackUserRecord.photoUrl,
+                                swipeableStackUserRecord.photos.firstOrNull!,
                                 width: double.infinity,
                                 height: double.infinity,
                                 fit: BoxFit.cover,
@@ -892,15 +917,18 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                           loop: false,
                           cardDisplayCount: 3,
                           scale: 0.9,
-                          cardPadding: const EdgeInsets.all(0.0),
+                          cardPadding: EdgeInsets.all(0.0),
                         );
                       },
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(-0.87, -0.93),
+                      alignment: AlignmentDirectional(-0.87, -0.93),
                       child: Builder(
                         builder: (context) => FFButtonWidget(
                           onPressed: () async {
+                            logFirebaseEvent(
+                                'POST_DETAILS_BASE_V1_COMP__BTN_ON_TAP');
+                            logFirebaseEvent('Button_alert_dialog');
                             await showDialog(
                               context: context,
                               builder: (dialogContext) {
@@ -908,26 +936,26 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                   elevation: 0,
                                   insetPadding: EdgeInsets.zero,
                                   backgroundColor: Colors.transparent,
-                                  alignment: const AlignmentDirectional(0.0, 0.0)
+                                  alignment: AlignmentDirectional(0.0, 0.0)
                                       .resolve(Directionality.of(context)),
-                                  child: const FilterWidget(),
+                                  child: FilterWidget(),
                                 );
                               },
                             );
                           },
                           text: '',
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.filter_alt,
                             color: Color(0xEBFFFFFF),
                             size: 15.0,
                           ),
                           options: FFButtonOptions(
                             height: 40.0,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 15.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
-                            color: const Color(0x006F61EF),
+                            color: Color(0x006F61EF),
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
@@ -936,7 +964,7 @@ class _PostDetailsBaseV1WidgetState extends State<PostDetailsBaseV1Widget> {
                                   letterSpacing: 0.0,
                                 ),
                             elevation: 3.0,
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),

@@ -12,7 +12,7 @@ CreditCardModel emptyCreditCard() => CreditCardModel('', '', '', '', false);
 
 class FlutterFlowCreditCardForm extends StatefulWidget {
   const FlutterFlowCreditCardForm({
-    super.key,
+    Key? key,
     required this.formKey,
     required this.creditCardModel,
     this.obscureNumber = false,
@@ -22,7 +22,7 @@ class FlutterFlowCreditCardForm extends StatefulWidget {
     this.inputDecoration = const InputDecoration(
       border: OutlineInputBorder(),
     ),
-  });
+  }) : super(key: key);
 
   final GlobalKey<FormState> formKey;
   final CreditCardModel creditCardModel;
@@ -68,12 +68,24 @@ class _FlutterFlowCreditCardFormState extends State<FlutterFlowCreditCardForm> {
       _cvvCodeController.text = widget.creditCardModel.cvvCode;
     }
     cvvFocusNode.addListener(textFieldFocusDidChange);
-    _cardNumberController.addListener(() => setState(
-        () => widget.creditCardModel.cardNumber = _cardNumberController.text));
-    _expiryDateController.addListener(() => setState(
-        () => widget.creditCardModel.expiryDate = _expiryDateController.text));
-    _cvvCodeController.addListener(() => setState(
-        () => widget.creditCardModel.cvvCode = _cvvCodeController.text));
+    _cardNumberController.addListener(() {
+      if (mounted) {
+        setState(() =>
+            widget.creditCardModel.cardNumber = _cardNumberController.text);
+      }
+    });
+    _expiryDateController.addListener(() {
+      if (mounted) {
+        setState(() =>
+            widget.creditCardModel.expiryDate = _expiryDateController.text);
+      }
+    });
+    _cvvCodeController.addListener(() {
+      if (mounted) {
+        setState(
+            () => widget.creditCardModel.cvvCode = _cvvCodeController.text);
+      }
+    });
   }
 
   @override

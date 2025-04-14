@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'preference_profile_draft_v3_model.dart';
 export 'preference_profile_draft_v3_model.dart';
 
+/// A conditional builder of the multichoice preference sturct
 class PreferenceProfileDraftV3Widget extends StatefulWidget {
-  /// A conditional builder of the multichoice preference sturct
   const PreferenceProfileDraftV3Widget({super.key});
 
   @override
@@ -28,7 +28,7 @@ class _PreferenceProfileDraftV3WidgetState
     super.initState();
     _model = createModel(context, () => PreferenceProfileDraftV3Model());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -43,27 +43,33 @@ class _PreferenceProfileDraftV3WidgetState
     return Builder(
       builder: (context) {
         if (true) {
-          return ListTile(
-            leading: const Icon(
-              Icons.people_alt,
+          return Material(
+            color: Colors.transparent,
+            child: ListTile(
+              leading: Icon(
+                Icons.people_alt,
+              ),
+              title: Text(
+                'Men',
+                style: FlutterFlowTheme.of(context).titleLarge.override(
+                      fontFamily: 'Outfit',
+                      letterSpacing: 0.0,
+                    ),
+              ),
+              tileColor: FlutterFlowTheme.of(context).secondaryBackground,
+              dense: false,
             ),
-            title: Text(
-              'Men',
-              style: FlutterFlowTheme.of(context).titleLarge.override(
-                    fontFamily: 'Outfit',
-                    letterSpacing: 0.0,
-                  ),
-            ),
-            tileColor: FlutterFlowTheme.of(context).secondaryBackground,
-            dense: false,
           );
         } else {
-          return ListTile(
-            leading: const Icon(
-              Icons.people_alt,
+          return Material(
+            color: Colors.transparent,
+            child: ListTile(
+              leading: Icon(
+                Icons.people_alt,
+              ),
+              tileColor: FlutterFlowTheme.of(context).secondaryBackground,
+              dense: false,
             ),
-            tileColor: FlutterFlowTheme.of(context).secondaryBackground,
-            dense: false,
           );
         }
       },

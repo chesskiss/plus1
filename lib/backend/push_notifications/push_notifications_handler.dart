@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'serialization_util.dart';
-import '../backend.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import '/backend/backend.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,8 @@ import 'package:flutter/scheduler.dart';
 final _handledMessageIds = <String?>{};
 
 class PushNotificationsHandler extends StatefulWidget {
-  const PushNotificationsHandler({super.key, required this.child});
+  const PushNotificationsHandler({Key? key, required this.child})
+      : super(key: key);
 
   final Widget child;
 
@@ -42,27 +42,31 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
     }
     _handledMessageIds.add(message.messageId);
 
-    if (mounted) {
-      setState(() => _loading = true);
-    }
+    safeSetState(() => _loading = true);
     try {
       final initialPageName = message.data['initialPageName'] as String;
       final initialParameterData = getInitialParameterData(message.data);
       final parametersBuilder = parametersBuilderMap[initialPageName];
       if (parametersBuilder != null) {
         final parameterData = await parametersBuilder(initialParameterData);
-        context.pushNamed(
-          initialPageName,
-          pathParameters: parameterData.pathParameters,
-          extra: parameterData.extra,
-        );
+        if (mounted) {
+          context.pushNamed(
+            initialPageName,
+            pathParameters: parameterData.pathParameters,
+            extra: parameterData.extra,
+          );
+        } else {
+          appNavigatorKey.currentContext?.pushNamed(
+            initialPageName,
+            pathParameters: parameterData.pathParameters,
+            extra: parameterData.extra,
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
     } finally {
-      if (mounted) {
-        setState(() => _loading = false);
-      }
+      safeSetState(() => _loading = false);
     }
   }
 
@@ -77,14 +81,10 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
   @override
   Widget build(BuildContext context) => _loading
       ? Container(
-          color: FlutterFlowTheme.of(context).primary,
-          child: Center(
-            child: Image.asset(
-              'assets/images/app_social_Splash@1x.png',
-              width: 600.0,
-              height: 600.0,
-              fit: BoxFit.scaleDown,
-            ),
+          color: Colors.transparent,
+          child: Image.asset(
+            'assets/images/Gemini_Generated_Image_o0s0vco0s0vco0s0.jpeg',
+            fit: BoxFit.fill,
           ),
         )
       : widget.child;
@@ -106,7 +106,7 @@ class ParameterData {
       );
 
   static Future<ParameterData> Function(Map<String, dynamic>) none() =>
-      (data) async => const ParameterData();
+      (data) async => ParameterData();
 }
 
 final parametersBuilderMap =
@@ -121,7 +121,7 @@ final parametersBuilderMap =
         },
       ),
   'editSettings': ParameterData.none(),
-  'editUserProfile': ParameterData.none(),
+  'editProfile': ParameterData.none(),
   'editDogProfile': (data) async => ParameterData(
         allParams: {
           'dogProfile': await getDocumentParameter<DogsRecord>(
@@ -130,13 +130,13 @@ final parametersBuilderMap =
       ),
   'changePassword': ParameterData.none(),
   'createDogProfile': ParameterData.none(),
-  'chat_2_Details_real': (data) async => ParameterData(
+  'chat_2_Details': (data) async => ParameterData(
         allParams: {
           'chatRef': await getDocumentParameter<ChatRecord>(
               data, 'chatRef', ChatRecord.fromSnapshot),
         },
       ),
-  'profileSwipes_v1': ParameterData.none(),
+  'mainLikes': ParameterData.none(),
   'chat_2_InviteUsers': (data) async => ParameterData(
         allParams: {
           'chatRef': await getDocumentParameter<ChatRecord>(
@@ -160,22 +160,33 @@ final parametersBuilderMap =
   'StartPage': ParameterData.none(),
   'CreatePost': ParameterData.none(),
   'ChooseLocation': ParameterData.none(),
-  'shared_events': (data) async => const ParameterData(
-        allParams: {},
-      ),
-  'chat_2_Details': (data) async => ParameterData(
-        allParams: {
-          'chatRef': await getDocumentParameter<ChatRecord>(
-              data, 'chatRef', ChatRecord.fromSnapshot),
-        },
+  'shared_events': (data) async => ParameterData(
+        allParams: <String, dynamic>{},
       ),
   'changeEmail': ParameterData.none(),
   'editPost': (data) async => ParameterData(
         allParams: {
-          'post': getParameter<DocumentReference>(data, 'post'),
+          'post': await getDocumentParameter<PostRecord>(
+              data, 'post', PostRecord.fromSnapshot),
         },
       ),
   'payment': ParameterData.none(),
+  'Profile16CreateEdit': ParameterData.none(),
+  'MobilePhoneSignup': ParameterData.none(),
+  'OPTverifyPage': (data) async => ParameterData(
+        allParams: {
+          'phonefromprev': getParameter<String>(data, 'phonefromprev'),
+        },
+      ),
+  'test': ParameterData.none(),
+  'support': ParameterData.none(),
+  'PostInterested': (data) async => ParameterData(
+        allParams: {
+          'post': await getDocumentParameter<PostRecord>(
+              data, 'post', PostRecord.fromSnapshot),
+        },
+      ),
+  'invitations': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

@@ -2,6 +2,7 @@ import '/auth/base_auth_user_provider.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'profile_images_carousel_model.dart';
@@ -35,7 +36,7 @@ class _ProfileImagesCarouselWidgetState
     super.initState();
     _model = createModel(context, () => ProfileImagesCarouselModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -52,7 +53,7 @@ class _ProfileImagesCarouselWidgetState
         final usersProfiles =
             (widget.usersLikedPost?.toList() ?? []).take(5).toList();
 
-        return SizedBox(
+        return Container(
           width: double.infinity,
           height: 180.0,
           child: CarouselSlider.builder(
@@ -85,11 +86,14 @@ class _ProfileImagesCarouselWidgetState
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
+                      logFirebaseEvent(
+                          'PROFILE_IMAGES_CAROUSEL_Image_wv2fv9f9_O');
                       if (loggedIn) {
                         // NevigateIfUser
+                        logFirebaseEvent('Image_NevigateIfUser');
 
                         context.pushNamed(
-                          'strangerProfile',
+                          StrangerProfileWidget.routeName,
                           queryParameters: {
                             'profile': serializeParam(
                               imageUserRecord.reference,
@@ -102,7 +106,7 @@ class _ProfileImagesCarouselWidgetState
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.network(
-                        imageUserRecord.photoUrl,
+                        imageUserRecord.photos.firstOrNull!,
                         width: 322.0,
                         height: 200.0,
                         fit: BoxFit.cover,
@@ -113,7 +117,7 @@ class _ProfileImagesCarouselWidgetState
               );
             },
             carouselController: _model.carouselController ??=
-                CarouselController(),
+                CarouselSliderController(),
             options: CarouselOptions(
               initialPage: max(0, min(1, usersProfiles.length - 1)),
               viewportFraction: 0.5,

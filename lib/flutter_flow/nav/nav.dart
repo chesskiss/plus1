@@ -8,15 +8,16 @@ import '/auth/base_auth_user_provider.dart';
 
 import '/backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
-import '/index.dart';
-import '/main.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+
+import '/index.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
 
 const kTransitionInfoKey = '__transition_info__';
+
+GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppStateNotifier extends ChangeNotifier {
   AppStateNotifier._();
@@ -71,44 +72,39 @@ class AppStateNotifier extends ChangeNotifier {
   }
 }
 
-GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
-    GoRouter(
+GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => appStateNotifier.loggedIn
-          ? entryPage ?? const NavBarPage()
-          : const StartPageWidget(),
+      navigatorKey: appNavigatorKey,
+      errorBuilder: (context, state) =>
+          appStateNotifier.loggedIn ? MainFeedWidget() : StartPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => appStateNotifier.loggedIn
-              ? entryPage ?? const NavBarPage()
-              : const StartPageWidget(),
+          builder: (context, _) =>
+              appStateNotifier.loggedIn ? MainFeedWidget() : StartPageWidget(),
         ),
         FFRoute(
-          name: 'forgotPassword',
-          path: '/forgotPassword',
-          builder: (context, params) => const ForgotPasswordWidget(),
+          name: ForgotPasswordWidget.routeName,
+          path: ForgotPasswordWidget.routePath,
+          builder: (context, params) => ForgotPasswordWidget(),
         ),
         FFRoute(
-          name: 'mainFeed',
-          path: '/mainFeed',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'mainFeed')
-              : const MainFeedWidget(),
+          name: MainFeedWidget.routeName,
+          path: MainFeedWidget.routePath,
+          builder: (context, params) => MainFeedWidget(),
         ),
         FFRoute(
-          name: 'mainProfile',
-          path: '/mainProfile',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'mainProfile')
-              : const MainProfileWidget(),
+          name: MainProfileWidget.routeName,
+          path: MainProfileWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => MainProfileWidget(),
         ),
         FFRoute(
-          name: 'postDetails_v1',
-          path: '/postDetailsV1',
+          name: PostDetailsV1Widget.routeName,
+          path: PostDetailsV1Widget.routePath,
           asyncParams: {
             'postParam': getDoc(['post'], PostRecord.fromSnapshot),
           },
@@ -120,18 +116,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           ),
         ),
         FFRoute(
-          name: 'editSettings',
-          path: '/editSettings',
-          builder: (context, params) => const EditSettingsWidget(),
+          name: EditSettingsWidget.routeName,
+          path: EditSettingsWidget.routePath,
+          builder: (context, params) => EditSettingsWidget(),
         ),
         FFRoute(
-          name: 'editUserProfile',
-          path: '/editUserProfile',
-          builder: (context, params) => const EditUserProfileWidget(),
+          name: EditProfileWidget.routeName,
+          path: EditProfileWidget.routePath,
+          builder: (context, params) => EditProfileWidget(),
         ),
         FFRoute(
-          name: 'editDogProfile',
-          path: '/editDogProfile',
+          name: EditDogProfileWidget.routeName,
+          path: EditDogProfileWidget.routePath,
           asyncParams: {
             'dogProfile': getDoc(['dogs'], DogsRecord.fromSnapshot),
           },
@@ -143,22 +139,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           ),
         ),
         FFRoute(
-          name: 'changePassword',
-          path: '/changePassword',
-          builder: (context, params) => const ChangePasswordWidget(),
+          name: ChangePasswordWidget.routeName,
+          path: ChangePasswordWidget.routePath,
+          builder: (context, params) => ChangePasswordWidget(),
         ),
         FFRoute(
-          name: 'createDogProfile',
-          path: '/createDogProfile',
-          builder: (context, params) => const CreateDogProfileWidget(),
+          name: CreateDogProfileWidget.routeName,
+          path: CreateDogProfileWidget.routePath,
+          builder: (context, params) => CreateDogProfileWidget(),
         ),
         FFRoute(
-          name: 'chat_2_Details_real',
-          path: '/chat2DetailsReal',
+          name: Chat2DetailsWidget.routeName,
+          path: Chat2DetailsWidget.routePath,
           asyncParams: {
             'chatRef': getDoc(['chat'], ChatRecord.fromSnapshot),
           },
-          builder: (context, params) => Chat2DetailsRealWidget(
+          builder: (context, params) => Chat2DetailsWidget(
             chatRef: params.getParam(
               'chatRef',
               ParamType.Document,
@@ -166,26 +162,33 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           ),
         ),
         FFRoute(
-          name: 'profileSwipes_v1',
-          path: '/profileSwipesV1',
-          builder: (context, params) => const ProfileSwipesV1Widget(),
+          name: MainLikesWidget.routeName,
+          path: MainLikesWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => MainLikesWidget(),
         ),
         FFRoute(
-          name: 'chat_2_InviteUsers',
-          path: '/chat2InviteUsers',
+          name: Chat2InviteUsersWidget.routeName,
+          path: Chat2InviteUsersWidget.routePath,
           asyncParams: {
             'chatRef': getDoc(['chat'], ChatRecord.fromSnapshot),
+            'filiteredUsers': getDocList(['user'], UserRecord.fromSnapshot),
           },
           builder: (context, params) => Chat2InviteUsersWidget(
             chatRef: params.getParam(
               'chatRef',
               ParamType.Document,
             ),
+            filiteredUsers: params.getParam<UserRecord>(
+              'filiteredUsers',
+              ParamType.Document,
+              isList: true,
+            ),
           ),
         ),
         FFRoute(
-          name: 'image_Details',
-          path: '/imageDetails',
+          name: ImageDetailsWidget.routeName,
+          path: ImageDetailsWidget.routePath,
           asyncParams: {
             'chatMessage':
                 getDoc(['chat_messages'], ChatMessagesRecord.fromSnapshot),
@@ -198,18 +201,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           ),
         ),
         FFRoute(
-          name: 'accountLoginSignup',
-          path: '/accountLoginSignup',
-          builder: (context, params) => const AccountLoginSignupWidget(),
+          name: AccountLoginSignupWidget.routeName,
+          path: AccountLoginSignupWidget.routePath,
+          builder: (context, params) => AccountLoginSignupWidget(),
         ),
         FFRoute(
-          name: 'createProfile',
-          path: '/createProfile',
-          builder: (context, params) => const CreateProfileWidget(),
+          name: CreateProfileWidget.routeName,
+          path: CreateProfileWidget.routePath,
+          builder: (context, params) => CreateProfileWidget(),
         ),
         FFRoute(
-          name: 'strangerProfile',
-          path: '/strangerProfile',
+          name: StrangerProfileWidget.routeName,
+          path: StrangerProfileWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => StrangerProfileWidget(
             profile: params.getParam(
               'profile',
@@ -220,30 +224,29 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           ),
         ),
         FFRoute(
-          name: 'logout',
-          path: '/logout',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'logout')
-              : const LogoutWidget(),
+          name: LogoutWidget.routeName,
+          path: LogoutWidget.routePath,
+          builder: (context, params) => LogoutWidget(),
         ),
         FFRoute(
-          name: 'StartPage',
-          path: '/startPage',
-          builder: (context, params) => const StartPageWidget(),
+          name: StartPageWidget.routeName,
+          path: StartPageWidget.routePath,
+          builder: (context, params) => StartPageWidget(),
         ),
         FFRoute(
-          name: 'CreatePost',
-          path: '/createPost',
-          builder: (context, params) => const CreatePostWidget(),
+          name: CreatePostWidget.routeName,
+          path: CreatePostWidget.routePath,
+          builder: (context, params) => CreatePostWidget(),
         ),
         FFRoute(
-          name: 'ChooseLocation',
-          path: '/chooseLocation',
-          builder: (context, params) => const ChooseLocationWidget(),
+          name: ChooseLocationWidget.routeName,
+          path: ChooseLocationWidget.routePath,
+          builder: (context, params) => ChooseLocationWidget(),
         ),
         FFRoute(
-          name: 'shared_events',
-          path: '/sharedEvents',
+          name: SharedEventsWidget.routeName,
+          path: SharedEventsWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => SharedEventsWidget(
             users: params.getParam<DocumentReference>(
               'users',
@@ -254,39 +257,75 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           ),
         ),
         FFRoute(
-          name: 'chat_2_Details',
-          path: '/chat2Details',
+          name: ChangeEmailWidget.routeName,
+          path: ChangeEmailWidget.routePath,
+          builder: (context, params) => ChangeEmailWidget(),
+        ),
+        FFRoute(
+          name: EditPostWidget.routeName,
+          path: EditPostWidget.routePath,
           asyncParams: {
-            'chatRef': getDoc(['chat'], ChatRecord.fromSnapshot),
+            'post': getDoc(['post'], PostRecord.fromSnapshot),
           },
-          builder: (context, params) => Chat2DetailsWidget(
-            chatRef: params.getParam(
-              'chatRef',
+          builder: (context, params) => EditPostWidget(
+            post: params.getParam(
+              'post',
               ParamType.Document,
             ),
           ),
         ),
         FFRoute(
-          name: 'changeEmail',
-          path: '/changeEmail',
-          builder: (context, params) => const ChangeEmailWidget(),
+          name: PaymentWidget.routeName,
+          path: PaymentWidget.routePath,
+          builder: (context, params) => PaymentWidget(),
         ),
         FFRoute(
-          name: 'editPost',
-          path: '/editPost',
-          builder: (context, params) => EditPostWidget(
-            post: params.getParam(
-              'post',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['post'],
+          name: Profile16CreateEditWidget.routeName,
+          path: Profile16CreateEditWidget.routePath,
+          builder: (context, params) => Profile16CreateEditWidget(),
+        ),
+        FFRoute(
+          name: MobilePhoneSignupWidget.routeName,
+          path: MobilePhoneSignupWidget.routePath,
+          builder: (context, params) => MobilePhoneSignupWidget(),
+        ),
+        FFRoute(
+          name: OPTverifyPageWidget.routeName,
+          path: OPTverifyPageWidget.routePath,
+          builder: (context, params) => OPTverifyPageWidget(
+            phonefromprev: params.getParam(
+              'phonefromprev',
+              ParamType.String,
             ),
           ),
         ),
         FFRoute(
-          name: 'payment',
-          path: '/payment',
-          builder: (context, params) => const PaymentWidget(),
+          name: TestWidget.routeName,
+          path: TestWidget.routePath,
+          builder: (context, params) => TestWidget(),
+        ),
+        FFRoute(
+          name: SupportWidget.routeName,
+          path: SupportWidget.routePath,
+          builder: (context, params) => SupportWidget(),
+        ),
+        FFRoute(
+          name: PostInterestedWidget.routeName,
+          path: PostInterestedWidget.routePath,
+          asyncParams: {
+            'post': getDoc(['post'], PostRecord.fromSnapshot),
+          },
+          builder: (context, params) => PostInterestedWidget(
+            post: params.getParam(
+              'post',
+              ParamType.Document,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: InvitationsWidget.routeName,
+          path: InvitationsWidget.routePath,
+          builder: (context, params) => InvitationsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],
@@ -475,14 +514,10 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: FlutterFlowTheme.of(context).primary,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/app_social_Splash@1x.png',
-                      width: 600.0,
-                      height: 600.0,
-                      fit: BoxFit.scaleDown,
-                    ),
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    'assets/images/Gemini_Generated_Image_o0s0vco0s0vco0s0.jpeg',
+                    fit: BoxFit.fill,
                   ),
                 )
               : PushNotificationsHandler(child: page);
@@ -527,7 +562,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

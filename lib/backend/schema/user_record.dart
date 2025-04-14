@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/enums/enums.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class UserRecord extends FirestoreRecord {
   UserRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -35,11 +36,6 @@ class UserRecord extends FirestoreRecord {
   DateTime? get createdTime => _createdTime;
   bool hasCreatedTime() => _createdTime != null;
 
-  // "followers" field.
-  List<DocumentReference>? _followers;
-  List<DocumentReference> get followers => _followers ?? const [];
-  bool hasFollowers() => _followers != null;
-
   // "likedPosts" field.
   List<DocumentReference>? _likedPosts;
   List<DocumentReference> get likedPosts => _likedPosts ?? const [];
@@ -54,11 +50,6 @@ class UserRecord extends FirestoreRecord {
   String? _displayName;
   String get displayName => _displayName ?? '';
   bool hasDisplayName() => _displayName != null;
-
-  // "photo_url" field.
-  String? _photoUrl;
-  String get photoUrl => _photoUrl ?? '';
-  bool hasPhotoUrl() => _photoUrl != null;
 
   // "following" field.
   List<DocumentReference>? _following;
@@ -84,11 +75,6 @@ class UserRecord extends FirestoreRecord {
   List<DocumentReference>? _matches;
   List<DocumentReference> get matches => _matches ?? const [];
   bool hasMatches() => _matches != null;
-
-  // "posts" field.
-  List<UserEventStruct>? _posts;
-  List<UserEventStruct> get posts => _posts ?? const [];
-  bool hasPosts() => _posts != null;
 
   // "uid" field.
   String? _uid;
@@ -130,45 +116,153 @@ class UserRecord extends FirestoreRecord {
   List<DateTime> get logoutTimes => _logoutTimes ?? const [];
   bool hasLogoutTimes() => _logoutTimes != null;
 
-  // "location" field.
-  LatLng? _location;
-  LatLng? get location => _location;
-  bool hasLocation() => _location != null;
-
   // "preferences" field.
   String? _preferences;
   String get preferences => _preferences ?? '';
   bool hasPreferences() => _preferences != null;
+
+  // "relationship" field.
+  List<RelationPreference>? _relationship;
+  List<RelationPreference> get relationship => _relationship ?? const [];
+  bool hasRelationship() => _relationship != null;
+
+  // "location" field.
+  String? _location;
+  String get location => _location ?? '';
+  bool hasLocation() => _location != null;
+
+  // "posts" field.
+  List<DocumentReference>? _posts;
+  List<DocumentReference> get posts => _posts ?? const [];
+  bool hasPosts() => _posts != null;
+
+  // "followers" field.
+  List<DocumentReference>? _followers;
+  List<DocumentReference> get followers => _followers ?? const [];
+  bool hasFollowers() => _followers != null;
+
+  // "Block_Users" field.
+  List<DocumentReference>? _blockUsers;
+  List<DocumentReference> get blockUsers => _blockUsers ?? const [];
+  bool hasBlockUsers() => _blockUsers != null;
+
+  // "block_uid" field.
+  List<String>? _blockUid;
+  List<String> get blockUid => _blockUid ?? const [];
+  bool hasBlockUid() => _blockUid != null;
+
+  // "Post_clicked" field.
+  List<DocumentReference>? _postClicked;
+  List<DocumentReference> get postClicked => _postClicked ?? const [];
+  bool hasPostClicked() => _postClicked != null;
+
+  // "Clicked_time" field.
+  DateTime? _clickedTime;
+  DateTime? get clickedTime => _clickedTime;
+  bool hasClickedTime() => _clickedTime != null;
+
+  // "rating" field.
+  List<RatingStruct>? _rating;
+  List<RatingStruct> get rating => _rating ?? const [];
+  bool hasRating() => _rating != null;
+
+  // "event_want" field.
+  List<DocumentReference>? _eventWant;
+  List<DocumentReference> get eventWant => _eventWant ?? const [];
+  bool hasEventWant() => _eventWant != null;
+
+  // "Matchs_time" field.
+  List<DateTime>? _matchsTime;
+  List<DateTime> get matchsTime => _matchsTime ?? const [];
+  bool hasMatchsTime() => _matchsTime != null;
+
+  // "photo_url" field.
+  String? _photoUrl;
+  String get photoUrl => _photoUrl ?? '';
+  bool hasPhotoUrl() => _photoUrl != null;
+
+  // "reports" field.
+  List<DocumentReference>? _reports;
+  List<DocumentReference> get reports => _reports ?? const [];
+  bool hasReports() => _reports != null;
+
+  // "swiped" field.
+  List<DocumentReference>? _swiped;
+  List<DocumentReference> get swiped => _swiped ?? const [];
+  bool hasSwiped() => _swiped != null;
+
+  // "hidden_posts" field.
+  List<DocumentReference>? _hiddenPosts;
+  List<DocumentReference> get hiddenPosts => _hiddenPosts ?? const [];
+  bool hasHiddenPosts() => _hiddenPosts != null;
+
+  // "going_out" field.
+  List<GoingOutStruct>? _goingOut;
+  List<GoingOutStruct> get goingOut => _goingOut ?? const [];
+  bool hasGoingOut() => _goingOut != null;
+
+  // "invitations" field.
+  List<InvitationStruct>? _invitations;
+  List<InvitationStruct> get invitations => _invitations ?? const [];
+  bool hasInvitations() => _invitations != null;
+
+  // "profileNotification" field.
+  bool? _profileNotification;
+  bool get profileNotification => _profileNotification ?? false;
+  bool hasProfileNotification() => _profileNotification != null;
 
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _savedPosts = getDataList(snapshotData['savedPosts']);
     _photos = getDataList(snapshotData['photos']);
     _createdTime = snapshotData['created_time'] as DateTime?;
-    _followers = getDataList(snapshotData['followers']);
     _likedPosts = getDataList(snapshotData['likedPosts']);
     _friends = getDataList(snapshotData['friends']);
     _displayName = snapshotData['display_name'] as String?;
-    _photoUrl = snapshotData['photo_url'] as String?;
     _following = getDataList(snapshotData['following']);
     _phoneNumber = snapshotData['phone_number'] as String?;
     _lastActiveTime = snapshotData['last_active_time'] as String?;
     _shortDescription = snapshotData['shortDescription'] as String?;
     _matches = getDataList(snapshotData['matches']);
-    _posts = getStructList(
-      snapshotData['posts'],
-      UserEventStruct.fromMap,
-    );
     _uid = snapshotData['uid'] as String?;
     _education = snapshotData['education'] as String?;
     _gender = snapshotData['gender'] as String?;
-    _height = HeightStruct.maybeFromMap(snapshotData['height']);
+    _height = snapshotData['height'] is HeightStruct
+        ? snapshotData['height']
+        : HeightStruct.maybeFromMap(snapshotData['height']);
     _age = castToType<int>(snapshotData['age']);
     _iLike = snapshotData['i_like'] as String?;
     _loginTimes = getDataList(snapshotData['login_times']);
     _logoutTimes = getDataList(snapshotData['logout_times']);
-    _location = snapshotData['location'] as LatLng?;
     _preferences = snapshotData['preferences'] as String?;
+    _relationship =
+        getEnumList<RelationPreference>(snapshotData['relationship']);
+    _location = snapshotData['location'] as String?;
+    _posts = getDataList(snapshotData['posts']);
+    _followers = getDataList(snapshotData['followers']);
+    _blockUsers = getDataList(snapshotData['Block_Users']);
+    _blockUid = getDataList(snapshotData['block_uid']);
+    _postClicked = getDataList(snapshotData['Post_clicked']);
+    _clickedTime = snapshotData['Clicked_time'] as DateTime?;
+    _rating = getStructList(
+      snapshotData['rating'],
+      RatingStruct.fromMap,
+    );
+    _eventWant = getDataList(snapshotData['event_want']);
+    _matchsTime = getDataList(snapshotData['Matchs_time']);
+    _photoUrl = snapshotData['photo_url'] as String?;
+    _reports = getDataList(snapshotData['reports']);
+    _swiped = getDataList(snapshotData['swiped']);
+    _hiddenPosts = getDataList(snapshotData['hidden_posts']);
+    _goingOut = getStructList(
+      snapshotData['going_out'],
+      GoingOutStruct.fromMap,
+    );
+    _invitations = getStructList(
+      snapshotData['invitations'],
+      InvitationStruct.fromMap,
+    );
+    _profileNotification = snapshotData['profileNotification'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -208,7 +302,6 @@ Map<String, dynamic> createUserRecordData({
   String? email,
   DateTime? createdTime,
   String? displayName,
-  String? photoUrl,
   String? phoneNumber,
   String? lastActiveTime,
   String? shortDescription,
@@ -218,15 +311,17 @@ Map<String, dynamic> createUserRecordData({
   HeightStruct? height,
   int? age,
   String? iLike,
-  LatLng? location,
   String? preferences,
+  String? location,
+  DateTime? clickedTime,
+  String? photoUrl,
+  bool? profileNotification,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'email': email,
       'created_time': createdTime,
       'display_name': displayName,
-      'photo_url': photoUrl,
       'phone_number': phoneNumber,
       'last_active_time': lastActiveTime,
       'shortDescription': shortDescription,
@@ -236,8 +331,11 @@ Map<String, dynamic> createUserRecordData({
       'height': HeightStruct().toMap(),
       'age': age,
       'i_like': iLike,
-      'location': location,
       'preferences': preferences,
+      'location': location,
+      'Clicked_time': clickedTime,
+      'photo_url': photoUrl,
+      'profileNotification': profileNotification,
     }.withoutNulls,
   );
 
@@ -257,17 +355,14 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         listEquality.equals(e1?.savedPosts, e2?.savedPosts) &&
         listEquality.equals(e1?.photos, e2?.photos) &&
         e1?.createdTime == e2?.createdTime &&
-        listEquality.equals(e1?.followers, e2?.followers) &&
         listEquality.equals(e1?.likedPosts, e2?.likedPosts) &&
         listEquality.equals(e1?.friends, e2?.friends) &&
         e1?.displayName == e2?.displayName &&
-        e1?.photoUrl == e2?.photoUrl &&
         listEquality.equals(e1?.following, e2?.following) &&
         e1?.phoneNumber == e2?.phoneNumber &&
         e1?.lastActiveTime == e2?.lastActiveTime &&
         e1?.shortDescription == e2?.shortDescription &&
         listEquality.equals(e1?.matches, e2?.matches) &&
-        listEquality.equals(e1?.posts, e2?.posts) &&
         e1?.uid == e2?.uid &&
         e1?.education == e2?.education &&
         e1?.gender == e2?.gender &&
@@ -276,8 +371,25 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e1?.iLike == e2?.iLike &&
         listEquality.equals(e1?.loginTimes, e2?.loginTimes) &&
         listEquality.equals(e1?.logoutTimes, e2?.logoutTimes) &&
+        e1?.preferences == e2?.preferences &&
+        listEquality.equals(e1?.relationship, e2?.relationship) &&
         e1?.location == e2?.location &&
-        e1?.preferences == e2?.preferences;
+        listEquality.equals(e1?.posts, e2?.posts) &&
+        listEquality.equals(e1?.followers, e2?.followers) &&
+        listEquality.equals(e1?.blockUsers, e2?.blockUsers) &&
+        listEquality.equals(e1?.blockUid, e2?.blockUid) &&
+        listEquality.equals(e1?.postClicked, e2?.postClicked) &&
+        e1?.clickedTime == e2?.clickedTime &&
+        listEquality.equals(e1?.rating, e2?.rating) &&
+        listEquality.equals(e1?.eventWant, e2?.eventWant) &&
+        listEquality.equals(e1?.matchsTime, e2?.matchsTime) &&
+        e1?.photoUrl == e2?.photoUrl &&
+        listEquality.equals(e1?.reports, e2?.reports) &&
+        listEquality.equals(e1?.swiped, e2?.swiped) &&
+        listEquality.equals(e1?.hiddenPosts, e2?.hiddenPosts) &&
+        listEquality.equals(e1?.goingOut, e2?.goingOut) &&
+        listEquality.equals(e1?.invitations, e2?.invitations) &&
+        e1?.profileNotification == e2?.profileNotification;
   }
 
   @override
@@ -286,17 +398,14 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e?.savedPosts,
         e?.photos,
         e?.createdTime,
-        e?.followers,
         e?.likedPosts,
         e?.friends,
         e?.displayName,
-        e?.photoUrl,
         e?.following,
         e?.phoneNumber,
         e?.lastActiveTime,
         e?.shortDescription,
         e?.matches,
-        e?.posts,
         e?.uid,
         e?.education,
         e?.gender,
@@ -305,8 +414,25 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e?.iLike,
         e?.loginTimes,
         e?.logoutTimes,
+        e?.preferences,
+        e?.relationship,
         e?.location,
-        e?.preferences
+        e?.posts,
+        e?.followers,
+        e?.blockUsers,
+        e?.blockUid,
+        e?.postClicked,
+        e?.clickedTime,
+        e?.rating,
+        e?.eventWant,
+        e?.matchsTime,
+        e?.photoUrl,
+        e?.reports,
+        e?.swiped,
+        e?.hiddenPosts,
+        e?.goingOut,
+        e?.invitations,
+        e?.profileNotification
       ]);
 
   @override

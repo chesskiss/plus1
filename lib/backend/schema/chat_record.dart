@@ -9,9 +9,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class ChatRecord extends FirestoreRecord {
   ChatRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -57,6 +57,56 @@ class ChatRecord extends FirestoreRecord {
   DocumentReference? get userB => _userB;
   bool hasUserB() => _userB != null;
 
+  // "email" field.
+  String? _email;
+  String get email => _email ?? '';
+  bool hasEmail() => _email != null;
+
+  // "display_name" field.
+  String? _displayName;
+  String get displayName => _displayName ?? '';
+  bool hasDisplayName() => _displayName != null;
+
+  // "photo_url" field.
+  String? _photoUrl;
+  String get photoUrl => _photoUrl ?? '';
+  bool hasPhotoUrl() => _photoUrl != null;
+
+  // "uid" field.
+  String? _uid;
+  String get uid => _uid ?? '';
+  bool hasUid() => _uid != null;
+
+  // "created_time" field.
+  DateTime? _createdTime;
+  DateTime? get createdTime => _createdTime;
+  bool hasCreatedTime() => _createdTime != null;
+
+  // "phone_number" field.
+  String? _phoneNumber;
+  String get phoneNumber => _phoneNumber ?? '';
+  bool hasPhoneNumber() => _phoneNumber != null;
+
+  // "rating" field.
+  List<RatingStruct>? _rating;
+  List<RatingStruct> get rating => _rating ?? const [];
+  bool hasRating() => _rating != null;
+
+  // "Rating_User_A" field.
+  RatingStruct? _ratingUserA;
+  RatingStruct get ratingUserA => _ratingUserA ?? RatingStruct();
+  bool hasRatingUserA() => _ratingUserA != null;
+
+  // "Rating_User_B" field.
+  RatingStruct? _ratingUserB;
+  RatingStruct get ratingUserB => _ratingUserB ?? RatingStruct();
+  bool hasRatingUserB() => _ratingUserB != null;
+
+  // "deleted" field.
+  bool? _deleted;
+  bool get deleted => _deleted ?? false;
+  bool hasDeleted() => _deleted != null;
+
   void _initializeFields() {
     _lastMessage = snapshotData['last_message'] as String?;
     _lastMessageTime = snapshotData['last_message_time'] as DateTime?;
@@ -66,6 +116,23 @@ class ChatRecord extends FirestoreRecord {
     _users = getDataList(snapshotData['users']);
     _userA = snapshotData['user_a'] as DocumentReference?;
     _userB = snapshotData['user_b'] as DocumentReference?;
+    _email = snapshotData['email'] as String?;
+    _displayName = snapshotData['display_name'] as String?;
+    _photoUrl = snapshotData['photo_url'] as String?;
+    _uid = snapshotData['uid'] as String?;
+    _createdTime = snapshotData['created_time'] as DateTime?;
+    _phoneNumber = snapshotData['phone_number'] as String?;
+    _rating = getStructList(
+      snapshotData['rating'],
+      RatingStruct.fromMap,
+    );
+    _ratingUserA = snapshotData['Rating_User_A'] is RatingStruct
+        ? snapshotData['Rating_User_A']
+        : RatingStruct.maybeFromMap(snapshotData['Rating_User_A']);
+    _ratingUserB = snapshotData['Rating_User_B'] is RatingStruct
+        ? snapshotData['Rating_User_B']
+        : RatingStruct.maybeFromMap(snapshotData['Rating_User_B']);
+    _deleted = snapshotData['deleted'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -107,6 +174,15 @@ Map<String, dynamic> createChatRecordData({
   int? groupChatId,
   DocumentReference? userA,
   DocumentReference? userB,
+  String? email,
+  String? displayName,
+  String? photoUrl,
+  String? uid,
+  DateTime? createdTime,
+  String? phoneNumber,
+  RatingStruct? ratingUserA,
+  RatingStruct? ratingUserB,
+  bool? deleted,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -115,8 +191,23 @@ Map<String, dynamic> createChatRecordData({
       'group_chat_id': groupChatId,
       'user_a': userA,
       'user_b': userB,
+      'email': email,
+      'display_name': displayName,
+      'photo_url': photoUrl,
+      'uid': uid,
+      'created_time': createdTime,
+      'phone_number': phoneNumber,
+      'Rating_User_A': RatingStruct().toMap(),
+      'Rating_User_B': RatingStruct().toMap(),
+      'deleted': deleted,
     }.withoutNulls,
   );
+
+  // Handle nested data for "Rating_User_A" field.
+  addRatingStructData(firestoreData, ratingUserA, 'Rating_User_A');
+
+  // Handle nested data for "Rating_User_B" field.
+  addRatingStructData(firestoreData, ratingUserB, 'Rating_User_B');
 
   return firestoreData;
 }
@@ -134,7 +225,17 @@ class ChatRecordDocumentEquality implements Equality<ChatRecord> {
         listEquality.equals(e1?.lastMessageSentBy, e2?.lastMessageSentBy) &&
         listEquality.equals(e1?.users, e2?.users) &&
         e1?.userA == e2?.userA &&
-        e1?.userB == e2?.userB;
+        e1?.userB == e2?.userB &&
+        e1?.email == e2?.email &&
+        e1?.displayName == e2?.displayName &&
+        e1?.photoUrl == e2?.photoUrl &&
+        e1?.uid == e2?.uid &&
+        e1?.createdTime == e2?.createdTime &&
+        e1?.phoneNumber == e2?.phoneNumber &&
+        listEquality.equals(e1?.rating, e2?.rating) &&
+        e1?.ratingUserA == e2?.ratingUserA &&
+        e1?.ratingUserB == e2?.ratingUserB &&
+        e1?.deleted == e2?.deleted;
   }
 
   @override
@@ -146,7 +247,17 @@ class ChatRecordDocumentEquality implements Equality<ChatRecord> {
         e?.lastMessageSentBy,
         e?.users,
         e?.userA,
-        e?.userB
+        e?.userB,
+        e?.email,
+        e?.displayName,
+        e?.photoUrl,
+        e?.uid,
+        e?.createdTime,
+        e?.phoneNumber,
+        e?.rating,
+        e?.ratingUserA,
+        e?.ratingUserB,
+        e?.deleted
       ]);
 
   @override

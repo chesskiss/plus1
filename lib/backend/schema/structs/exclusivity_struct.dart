@@ -8,51 +8,21 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class ExclusivityStruct extends FFFirebaseStruct {
   ExclusivityStruct({
-    bool? tickets,
-    bool? sponsorship,
-    bool? exclusiveAccess,
-    bool? public,
+    bool? exclusive,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _tickets = tickets,
-        _sponsorship = sponsorship,
-        _exclusiveAccess = exclusiveAccess,
-        _public = public,
+  })  : _exclusive = exclusive,
         super(firestoreUtilData);
 
-  // "Tickets" field.
-  bool? _tickets;
-  bool get tickets => _tickets ?? false;
-  set tickets(bool? val) => _tickets = val;
+  // "Exclusive" field.
+  bool? _exclusive;
+  bool get exclusive => _exclusive ?? false;
+  set exclusive(bool? val) => _exclusive = val;
 
-  bool hasTickets() => _tickets != null;
-
-  // "Sponsorship" field.
-  bool? _sponsorship;
-  bool get sponsorship => _sponsorship ?? false;
-  set sponsorship(bool? val) => _sponsorship = val;
-
-  bool hasSponsorship() => _sponsorship != null;
-
-  // "ExclusiveAccess" field.
-  bool? _exclusiveAccess;
-  bool get exclusiveAccess => _exclusiveAccess ?? false;
-  set exclusiveAccess(bool? val) => _exclusiveAccess = val;
-
-  bool hasExclusiveAccess() => _exclusiveAccess != null;
-
-  // "Public" field.
-  bool? _public;
-  bool get public => _public ?? false;
-  set public(bool? val) => _public = val;
-
-  bool hasPublic() => _public != null;
+  bool hasExclusive() => _exclusive != null;
 
   static ExclusivityStruct fromMap(Map<String, dynamic> data) =>
       ExclusivityStruct(
-        tickets: data['Tickets'] as bool?,
-        sponsorship: data['Sponsorship'] as bool?,
-        exclusiveAccess: data['ExclusiveAccess'] as bool?,
-        public: data['Public'] as bool?,
+        exclusive: data['Exclusive'] as bool?,
       );
 
   static ExclusivityStruct? maybeFromMap(dynamic data) => data is Map
@@ -60,51 +30,21 @@ class ExclusivityStruct extends FFFirebaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'Tickets': _tickets,
-        'Sponsorship': _sponsorship,
-        'ExclusiveAccess': _exclusiveAccess,
-        'Public': _public,
+        'Exclusive': _exclusive,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'Tickets': serializeParam(
-          _tickets,
-          ParamType.bool,
-        ),
-        'Sponsorship': serializeParam(
-          _sponsorship,
-          ParamType.bool,
-        ),
-        'ExclusiveAccess': serializeParam(
-          _exclusiveAccess,
-          ParamType.bool,
-        ),
-        'Public': serializeParam(
-          _public,
+        'Exclusive': serializeParam(
+          _exclusive,
           ParamType.bool,
         ),
       }.withoutNulls;
 
   static ExclusivityStruct fromSerializableMap(Map<String, dynamic> data) =>
       ExclusivityStruct(
-        tickets: deserializeParam(
-          data['Tickets'],
-          ParamType.bool,
-          false,
-        ),
-        sponsorship: deserializeParam(
-          data['Sponsorship'],
-          ParamType.bool,
-          false,
-        ),
-        exclusiveAccess: deserializeParam(
-          data['ExclusiveAccess'],
-          ParamType.bool,
-          false,
-        ),
-        public: deserializeParam(
-          data['Public'],
+        exclusive: deserializeParam(
+          data['Exclusive'],
           ParamType.bool,
           false,
         ),
@@ -115,33 +55,22 @@ class ExclusivityStruct extends FFFirebaseStruct {
 
   @override
   bool operator ==(Object other) {
-    return other is ExclusivityStruct &&
-        tickets == other.tickets &&
-        sponsorship == other.sponsorship &&
-        exclusiveAccess == other.exclusiveAccess &&
-        public == other.public;
+    return other is ExclusivityStruct && exclusive == other.exclusive;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([tickets, sponsorship, exclusiveAccess, public]);
+  int get hashCode => const ListEquality().hash([exclusive]);
 }
 
 ExclusivityStruct createExclusivityStruct({
-  bool? tickets,
-  bool? sponsorship,
-  bool? exclusiveAccess,
-  bool? public,
+  bool? exclusive,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     ExclusivityStruct(
-      tickets: tickets,
-      sponsorship: sponsorship,
-      exclusiveAccess: exclusiveAccess,
-      public: public,
+      exclusive: exclusive,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

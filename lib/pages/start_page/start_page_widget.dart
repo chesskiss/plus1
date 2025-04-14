@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'start_page_model.dart';
@@ -9,6 +10,9 @@ export 'start_page_model.dart';
 
 class StartPageWidget extends StatefulWidget {
   const StartPageWidget({super.key});
+
+  static String routeName = 'StartPage';
+  static String routePath = '/startPage';
 
   @override
   State<StartPageWidget> createState() => _StartPageWidgetState();
@@ -27,6 +31,7 @@ class _StartPageWidgetState extends State<StartPageWidget>
     super.initState();
     _model = createModel(context, () => StartPageModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'StartPage'});
     animationsMap.addAll({
       'textOnPageLoadAnimation1': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
@@ -42,8 +47,8 @@ class _StartPageWidgetState extends State<StartPageWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 60.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 60.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -61,8 +66,8 @@ class _StartPageWidgetState extends State<StartPageWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 80.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 80.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -80,8 +85,8 @@ class _StartPageWidgetState extends State<StartPageWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 120.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 120.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -93,7 +98,7 @@ class _StartPageWidgetState extends State<StartPageWidget>
       this,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -106,7 +111,10 @@ class _StartPageWidgetState extends State<StartPageWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -127,7 +135,7 @@ class _StartPageWidgetState extends State<StartPageWidget>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 44.0, 16.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(16.0, 44.0, 16.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,7 +153,7 @@ class _StartPageWidgetState extends State<StartPageWidget>
               Container(
                 width: double.infinity,
                 height: 500.0,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Color(0x00090F13), Color(0x991D2429)],
                     stops: [0.0, 0.5],
@@ -154,7 +162,7 @@ class _StartPageWidgetState extends State<StartPageWidget>
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -173,7 +181,7 @@ class _StartPageWidgetState extends State<StartPageWidget>
                       ).animateOnPageLoad(
                           animationsMap['textOnPageLoadAnimation1']!),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 12.0, 0.0, 12.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -184,20 +192,25 @@ class _StartPageWidgetState extends State<StartPageWidget>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      context.pushNamed('accountLoginSignup');
+                                      logFirebaseEvent(
+                                          'START_PAGE_PAGE_TRY_IT_NOW_BTN_ON_TAP');
+                                      logFirebaseEvent('Button_navigate_to');
+
+                                      context.pushNamed(
+                                          AccountLoginSignupWidget.routeName);
                                     },
                                     text: 'Try It Now',
                                     options: FFButtonOptions(
                                       height: 40.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           24.0, 0.0, 24.0, 0.0),
                                       iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
+                                          EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color: const Color(0x006F61EF),
+                                      color: Color(0x006F61EF),
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -223,13 +236,13 @@ class _StartPageWidgetState extends State<StartPageWidget>
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
                         child: Text(
                           'Find your way to exclusive clubs and events. \n\nIf you already found it, you will have a huge advantage. \nLet your  PLUS 1 find you.',
                           style:
                               FlutterFlowTheme.of(context).titleSmall.override(
                                     fontFamily: 'Readex Pro',
-                                    color: const Color(0x9AFFFFFF),
+                                    color: Color(0x9AFFFFFF),
                                     letterSpacing: 0.0,
                                   ),
                         ).animateOnPageLoad(

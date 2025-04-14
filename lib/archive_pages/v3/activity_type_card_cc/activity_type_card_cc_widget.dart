@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'activity_type_card_cc_model.dart';
 export 'activity_type_card_cc_model.dart';
 
+/// A conditional viewer showing only relevant activity types using choice
+/// chips - could be used to gather activity type input from the user.
 class ActivityTypeCardCcWidget extends StatefulWidget {
-  /// A conditional viewer showing only relevant activity types using choice
-  /// chips - could be used to gather activity type input from the user.
   const ActivityTypeCardCcWidget({
     super.key,
     this.parameter2,
@@ -33,7 +33,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
     super.initState();
     _model = createModel(context, () => ActivityTypeCardCcModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -46,7 +46,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(5.0, 10.0, 5.0, 10.0),
+      padding: EdgeInsetsDirectional.fromSTEB(5.0, 10.0, 5.0, 10.0),
       child: Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -62,7 +62,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: EdgeInsets.all(6.0),
                   child: Text(
                     'Activity Type',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
@@ -84,7 +84,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                     ),
                     child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
                       child: Wrap(
                         spacing: 6.0,
                         runSpacing: 0.0,
@@ -113,7 +113,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   size: 24.0,
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Text(
                                     'Sports',
                                     textAlign: TextAlign.start,
@@ -126,8 +126,8 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   ),
                                 ),
                               ]
-                                  .divide(const SizedBox(width: 6.0))
-                                  .around(const SizedBox(width: 6.0)),
+                                  .divide(SizedBox(width: 6.0))
+                                  .around(SizedBox(width: 6.0)),
                             ),
                           ),
                           Card(
@@ -142,7 +142,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Icon(
                                     Icons.restaurant_sharp,
                                     color: FlutterFlowTheme.of(context)
@@ -151,7 +151,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   ),
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Text(
                                     'Dine',
                                     textAlign: TextAlign.start,
@@ -164,8 +164,8 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   ),
                                 ),
                               ]
-                                  .divide(const SizedBox(width: 6.0))
-                                  .around(const SizedBox(width: 6.0)),
+                                  .divide(SizedBox(width: 6.0))
+                                  .around(SizedBox(width: 6.0)),
                             ),
                           ),
                           Card(
@@ -186,7 +186,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   size: 24.0,
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Text(
                                     'Watch',
                                     textAlign: TextAlign.start,
@@ -199,8 +199,8 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   ),
                                 ),
                               ]
-                                  .divide(const SizedBox(width: 6.0))
-                                  .around(const SizedBox(width: 6.0)),
+                                  .divide(SizedBox(width: 6.0))
+                                  .around(SizedBox(width: 6.0)),
                             ),
                           ),
                           Card(
@@ -221,7 +221,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   size: 24.0,
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Text(
                                     'Drink',
                                     textAlign: TextAlign.start,
@@ -234,8 +234,8 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   ),
                                 ),
                               ]
-                                  .divide(const SizedBox(width: 6.0))
-                                  .around(const SizedBox(width: 6.0)),
+                                  .divide(SizedBox(width: 6.0))
+                                  .around(SizedBox(width: 6.0)),
                             ),
                           ),
                           Card(
@@ -256,7 +256,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   size: 24.0,
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Text(
                                     'Relax',
                                     textAlign: TextAlign.start,
@@ -269,8 +269,8 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                   ),
                                 ),
                               ]
-                                  .divide(const SizedBox(width: 6.0))
-                                  .around(const SizedBox(width: 6.0)),
+                                  .divide(SizedBox(width: 6.0))
+                                  .around(SizedBox(width: 6.0)),
                             ),
                           ),
                           if (widget.parameter2 == true)
@@ -292,7 +292,7 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                     size: 24.0,
                                   ),
                                   Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
+                                    alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Text(
                                       'Other',
                                       textAlign: TextAlign.start,
@@ -305,8 +305,8 @@ class _ActivityTypeCardCcWidgetState extends State<ActivityTypeCardCcWidget> {
                                     ),
                                   ),
                                 ]
-                                    .divide(const SizedBox(width: 6.0))
-                                    .around(const SizedBox(width: 6.0)),
+                                    .divide(SizedBox(width: 6.0))
+                                    .around(SizedBox(width: 6.0)),
                               ),
                             ),
                         ],

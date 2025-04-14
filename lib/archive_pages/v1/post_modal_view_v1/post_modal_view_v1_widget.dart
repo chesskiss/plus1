@@ -48,8 +48,8 @@ class _PostModalViewV1WidgetState extends State<PostModalViewV1Widget>
             curve: Curves.easeInOut,
             delay: 100.0.ms,
             duration: 400.0.ms,
-            begin: const Offset(0.0, 100.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 100.0),
+            end: Offset(0.0, 0.0),
           ),
           FadeEffect(
             curve: Curves.easeInOut,
@@ -68,7 +68,7 @@ class _PostModalViewV1WidgetState extends State<PostModalViewV1Widget>
       this,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -91,16 +91,16 @@ class _PostModalViewV1WidgetState extends State<PostModalViewV1Widget>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(12.0, 32.0, 12.0, 32.0),
+            padding: EdgeInsetsDirectional.fromSTEB(12.0, 32.0, 12.0, 32.0),
             child: Container(
               width: double.infinity,
               height: MediaQuery.sizeOf(context).height * 0.8,
-              constraints: const BoxConstraints(
+              constraints: BoxConstraints(
                 maxWidth: 530.0,
               ),
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).secondaryBackground,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     blurRadius: 12.0,
                     color: Color(0x1E000000),
@@ -123,7 +123,7 @@ class _PostModalViewV1WidgetState extends State<PostModalViewV1Widget>
                   ),
                   child: wrapWithModel(
                     model: _model.postDetailsBaseV1Model,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     updateOnChange: true,
                     child: PostDetailsBaseV1Widget(
                       postRef: widget.postRef!.reference,

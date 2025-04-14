@@ -1,6 +1,6 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'profile_images_carousel_widget.dart' show ProfileImagesCarouselWidget;
 import 'package:carousel_slider/carousel_slider.dart';
+import 'profile_images_carousel_widget.dart' show ProfileImagesCarouselWidget;
 import 'package:flutter/material.dart';
 
 class ProfileImagesCarouselModel
@@ -8,7 +8,7 @@ class ProfileImagesCarouselModel
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for Carousel widget.
-  CarouselController? carouselController;
+  CarouselSliderController? carouselController;
   int carouselCurrentIndex = 1;
 
   @override
